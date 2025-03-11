@@ -26,7 +26,8 @@ public class Users {
  @GeneratedValue(strategy = GenerationType.SEQUENCE)  
 @Id
 private Integer id;
-private String email ;
+private boolean isactive;
+private String email;
 private String tel;
 private String password;
 @OneToMany(mappedBy="users",cascade = CascadeType.ALL)

@@ -97,28 +97,35 @@ public ResponseEntity<?> AfficheSerice(int id){
     Users user = userRepository.findById(id).get();
     List<Maisons> maisons = user.getMaisons();
     List<MaisonReponse> reponse= maisons.stream().map(maison->{
-        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.100.11:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
         return new MaisonReponse(maison.getId(),maison.getLocalisation(),maison.getPrix(),maison.getDescription(),maison.getAltitude(),maison.getLongitude(),images,maison.getUsers().getTel());
     }).collect(Collectors.toList());
     return ResponseEntity.ok().body(reponse);
 }
 public ResponseEntity<?> find(Long id){
     Maisons maisons = repository.findById(id).get();
-    List<String> images = maisons.getPhotos().stream().map(photo->"http://192.168.100.11:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+    List<String> images = maisons.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
     MaisonReponse reponse = new MaisonReponse(maisons.getId(),maisons.getLocalisation(),maisons.getPrix(),maisons.getDescription(),maisons.getAltitude(),maisons.getLongitude(),images,maisons.getUsers().getTel());
     return ResponseEntity.ok().body(reponse);
 }
 
 public ResponseEntity<?> Allservice(){
-    List<Maisons> maisons=repository.findAll();
+    List<Maisons> maisons=repository.findByIsactiveTrue();
     List<MaisonReponse> reponse= maisons.stream().map(maison->{
-        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.100.11:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
         return new MaisonReponse(maison.getId(),maison.getLocalisation(),maison.getPrix(),maison.getDescription(),maison.getAltitude(),maison.getLongitude(),images,maison.getUsers().getTel());
     }).collect(Collectors.toList());
     return ResponseEntity.ok().body(reponse);
 }
 
 public void deleteservice(Long id){
-      repository.deleteById(id);
+      Maisons maison=repository.findById(id).get();
+      maison.setIsactive(false);
+      repository.save(maison);
+}
+public void active(Long id){
+      Maisons maison=repository.findById(id).get();
+      maison.setIsactive(true);
+      repository.save(maison);
 }
 }

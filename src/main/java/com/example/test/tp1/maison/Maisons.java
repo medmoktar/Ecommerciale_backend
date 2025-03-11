@@ -28,6 +28,7 @@ public class Maisons {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
     private Long id;
+    private boolean isactive;
     private String localisation;
     private double prix;
     @Column(columnDefinition = "Text")
