@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class MaisonDTO {
     private Long id;
-    private String localisation;
     private double prix;
     private String description;
 }

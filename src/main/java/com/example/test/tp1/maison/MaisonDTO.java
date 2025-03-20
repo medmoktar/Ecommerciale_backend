@@ -10,10 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class MaisonDTO {
-    private String localisation;
     private double prix;
+    private String nom;
     private String description;
-    private double altitude;
-    private double longitude; 
     private List<MultipartFile> images;
 }

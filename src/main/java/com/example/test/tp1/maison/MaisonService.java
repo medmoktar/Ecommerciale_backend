@@ -30,16 +30,14 @@ private PhotoRepository photoRepository;
 // private Maisons maisons;
 private final String images_Dir = "Images/";
 
-public void add(int user_id,String location ,double prix ,String desc,double alt,double lon,List<MultipartFile> images) throws IOException{
+public void add(int user_id,String nom,double prix ,String desc,List<MultipartFile> images) throws IOException{
     Optional<Users> user = userRepository.findById(user_id);
     
         Maisons maison = new Maisons();
-        maison.setLocalisation(location);
         maison.setPrix(prix);
         maison.setDescription(desc);
-        maison.setAltitude(alt);
-        maison.setLongitude(lon);
         maison.setUsers(user.get());
+        maison.setNom(nom);
         repository.save(maison);
         Users user_s= user.get();
         user_s.ajoutmaison(maison);
@@ -60,13 +58,11 @@ public void add(int user_id,String location ,double prix ,String desc,double alt
     
 }
 
-public void Modifierservice(Long id,String location ,double prix ,String desc,double alt,double lon,List<MultipartFile> images) throws IOException{
+public void Modifierservice(Long id,String nom,double prix ,String desc,List<MultipartFile> images) throws IOException{
     Maisons maison=repository.findById(id).get();
-    maison.setLocalisation(location);
     maison.setPrix(prix);
+    maison.setNom(nom);
     maison.setDescription(desc);
-    maison.setAltitude(alt);
-    maison.setLongitude(lon);
     repository.save(maison);
     if(images != null){
            List<MaisonPhoto> anciennesPhotos = new ArrayList<>(maison.getPhotos());
@@ -97,35 +93,32 @@ public ResponseEntity<?> AfficheSerice(int id){
     Users user = userRepository.findById(id).get();
     List<Maisons> maisons = user.getMaisons();
     List<MaisonReponse> reponse= maisons.stream().map(maison->{
-        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
-        return new MaisonReponse(maison.getId(),maison.getLocalisation(),maison.getPrix(),maison.getDescription(),maison.getAltitude(),maison.getLongitude(),images,maison.getUsers().getTel());
+        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.100.135:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+        return new MaisonReponse(maison.getId(),maison.getNom(),maison.getPrix(),maison.getDescription(),maison.getUsers().getAltd(),maison.getUsers().getLongd(),images,maison.getUsers().getTel());
     }).collect(Collectors.toList());
     return ResponseEntity.ok().body(reponse);
 }
 public ResponseEntity<?> find(Long id){
     Maisons maisons = repository.findById(id).get();
-    List<String> images = maisons.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
-    MaisonReponse reponse = new MaisonReponse(maisons.getId(),maisons.getLocalisation(),maisons.getPrix(),maisons.getDescription(),maisons.getAltitude(),maisons.getLongitude(),images,maisons.getUsers().getTel());
+    List<String> images = maisons.getPhotos().stream().map(photo->"http://192.168.100.135:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+    MaisonReponse reponse = new MaisonReponse(maisons.getId(),maisons.getNom(),maisons.getPrix(),maisons.getDescription(),maisons.getUsers().getAltd(),maisons.getUsers().getLongd(),images,maisons.getUsers().getTel());
     return ResponseEntity.ok().body(reponse);
 }
 
 public ResponseEntity<?> Allservice(){
-    List<Maisons> maisons=repository.findByIsactiveTrue();
+    List<Maisons> maisons=repository.findAll();
     List<MaisonReponse> reponse= maisons.stream().map(maison->{
-        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.1.104:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
-        return new MaisonReponse(maison.getId(),maison.getLocalisation(),maison.getPrix(),maison.getDescription(),maison.getAltitude(),maison.getLongitude(),images,maison.getUsers().getTel());
+        List<String> images = maison.getPhotos().stream().map(photo->"http://192.168.100.135:9000/Images/"+photo.getFilename()).collect(Collectors.toList());
+        return new MaisonReponse(maison.getId(),maison.getNom(),maison.getPrix(),maison.getDescription(),maison.getUsers().getAltd(),maison.getUsers().getLongd(),images,maison.getUsers().getTel());
     }).collect(Collectors.toList());
     return ResponseEntity.ok().body(reponse);
 }
 
 public void deleteservice(Long id){
-      Maisons maison=repository.findById(id).get();
-      maison.setIsactive(false);
-      repository.save(maison);
+      repository.deleteById(id);
 }
 public void active(Long id){
       Maisons maison=repository.findById(id).get();
-      maison.setIsactive(true);
       repository.save(maison);
 }
 }

@@ -46,7 +46,7 @@ public Map<String,Object> store(Integer id){
     Map<String,Object> reponse = new HashMap<>();
     Optional<Users> user =repository.findById(id);
     if(user.isPresent()){
-        reponse.put("user",user.get());
+        reponse.put("user",new UserDTO(user.get().getAltd(), user.get().getLongd(), user.get().getEmail(), user.get().getTel()));
         reponse.put("massage", "Utilisateur trouvé avec succès.");
     }else{
         reponse.put("message","Cet utilisateur n'est pas présent.");
@@ -62,7 +62,9 @@ public Map<String,Object> Update(Users x,Integer id){
     if(existinguser.isPresent()){
         Users user=existinguser.get();
         user.setEmail(x.getEmail());
-        user.setPassword(x.getPassword());
+        user.setTel(x.getTel());
+        user.setAltd(x.getAltd());
+        user.setLongd(x.getLongd());
         repository.save(user);
         reponse.put("massage", "Utilisateur Modifier avec succès.");
     }else{
@@ -78,7 +80,7 @@ public Map<String,Object> getmaison(int id){
     Map<String,Object> reponse=new HashMap<>();
     Optional<Users> user=repository.findById(id);
     if(user.isPresent()){
-        List<MaisonDTO> maisons =user.get().getMaisons().stream().map(maison->new MaisonDTO(maison.getId(),maison.getLocalisation(),maison.getPrix(),maison.getDescription())).toList();
+        List<MaisonDTO> maisons =user.get().getMaisons().stream().map(maison->new MaisonDTO(maison.getId(),maison.getPrix(),maison.getDescription())).toList();
         reponse.put("maison",maisons);
         
     }else{

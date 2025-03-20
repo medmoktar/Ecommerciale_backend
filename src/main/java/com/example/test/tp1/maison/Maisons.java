@@ -28,13 +28,10 @@ public class Maisons {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
     private Long id;
-    private boolean isactive;
-    private String localisation;
+    private String nom;
     private double prix;
     @Column(columnDefinition = "Text")
     private String description;
-    private double altitude;
-    private double longitude;   
     @ManyToOne
     @JoinColumn(name = "users_id",nullable = false)
     private Users users;

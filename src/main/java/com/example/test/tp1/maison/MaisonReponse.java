@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class MaisonReponse {
     private Long id;
-    private String localisation;
+    private String nom;
     private double prix;
     private String description;
     private double altitude;

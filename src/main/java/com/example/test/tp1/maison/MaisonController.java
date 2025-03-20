@@ -33,7 +33,7 @@ public class MaisonController {
     public ResponseEntity<?> postMethodName(@PathVariable int user_id, @ModelAttribute MaisonDTO maisons) {
         try{
         service.add(
-        user_id,maisons.getLocalisation(),maisons.getPrix(),maisons.getDescription(),maisons.getAltitude(),maisons.getLongitude(),maisons.getImages());
+        user_id,maisons.getNom(),maisons.getPrix(),maisons.getDescription(),maisons.getImages());
         return ResponseEntity.ok().body("Maison crees avec succes !");
     }
         catch(IOException e){
@@ -65,7 +65,7 @@ public class MaisonController {
         @PatchMapping(value = "modifier/{id}",consumes="multipart/form-data")
         public ResponseEntity<?> modifier(@PathVariable Long id,@ModelAttribute MaisonDTO reponse){
            try{
-            service.Modifierservice(id, reponse.getLocalisation(), reponse.getPrix(), reponse.getDescription(), reponse.getAltitude(), reponse.getLongitude(), reponse.getImages());
+            service.Modifierservice(id, reponse.getNom(),reponse.getPrix(), reponse.getDescription(), reponse.getImages());
             return ResponseEntity.ok().body("Maison modifier avec succes");
            }catch(Exception e){
             return ResponseEntity.status(500).body("Erreur lors de la creation de maison"+e.getMessage());

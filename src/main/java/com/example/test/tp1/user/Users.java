@@ -27,6 +27,8 @@ public class Users {
 @Id
 private Integer id;
 private boolean isactive;
+private double altd;
+private double longd;
 private String email;
 private String tel;
 private String password;
