@@ -33,7 +33,7 @@ public class MaisonController {
     public ResponseEntity<?> postMethodName(@PathVariable int user_id, @ModelAttribute MaisonDTO maisons) {
         try{
         service.add(
-        user_id,maisons.getNom(),maisons.getPrix(),maisons.getDescription(),maisons.getImages());
+        user_id,maisons.getNom(),maisons.getPrix(),maisons.getQuantite(),maisons.getDescription(),maisons.getImages());
         return ResponseEntity.ok().body("Maison crees avec succes !");
     }
         catch(IOException e){

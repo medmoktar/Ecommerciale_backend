@@ -13,5 +13,6 @@ public class MaisonDTO {
     private double prix;
     private String nom;
     private String description;
+    private int quantite;
     private List<MultipartFile> images;
 }

@@ -12,6 +12,7 @@ public class MaisonReponse {
     private Long id;
     private String nom;
     private double prix;
+    private double quantite;
     private String description;
     private double altitude;
     private double longitude;   

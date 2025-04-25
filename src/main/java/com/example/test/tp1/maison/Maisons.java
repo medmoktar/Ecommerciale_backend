@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 
+import com.example.test.tp1.CommandeMaison;
 import com.example.test.tp1.user.Users;
 
 import jakarta.persistence.Column;
@@ -32,12 +33,14 @@ public class Maisons {
     private double prix;
     @Column(columnDefinition = "Text")
     private String description;
+    private int quantite;
     @ManyToOne
     @JoinColumn(name = "users_id",nullable = false)
     private Users users;
     @OneToMany(mappedBy = "maison", cascade = CascadeType.ALL)
     private List<MaisonPhoto> photos;
-
+    @OneToMany(mappedBy = "maison")
+    private List<CommandeMaison> commandeMaisons;
     
 
 }
